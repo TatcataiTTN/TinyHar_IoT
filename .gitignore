@@ -1,0 +1,63 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# Project specific
+datasets/UCI HAR Dataset/
+datasets/WISDM/
+datasets/PAMAP2/
+datasets/*.zip
+datasets/*.tar.gz
+
+models/*.h5
+models/*.tflite
+models/*.pkl
+
+# Exclude src copy folder
+src copy/
+
+# LaTeX
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.synctex.gz
+*.toc
+*.nav
+*.snm
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+
