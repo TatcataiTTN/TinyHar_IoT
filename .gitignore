@@ -61,3 +61,4 @@ src copy/
 *.bak
 *.swp
 
+__MACOSX/
