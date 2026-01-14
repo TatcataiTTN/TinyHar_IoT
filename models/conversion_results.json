@@ -1,0 +1,46 @@
+{
+  "cnn_simple": {
+    "name": "CNN Đơn Giản",
+    "original_size_bytes": 3446352,
+    "original_size_kb": 3365.578125,
+    "tflite_float32_size_bytes": 1141144,
+    "tflite_float32_size_kb": 1114.3984375,
+    "tflite_int8_size_bytes": 294248,
+    "tflite_int8_size_kb": 287.3515625,
+    "reduction_float32_percent": 66.8883503484264,
+    "reduction_int8_percent": 91.4620445038696
+  },
+  "cnn_deep": {
+    "name": "CNN Sâu",
+    "original_size_bytes": 712896,
+    "original_size_kb": 696.1875,
+    "tflite_float32_size_bytes": 222044,
+    "tflite_float32_size_kb": 216.83984375,
+    "tflite_int8_size_bytes": 74440,
+    "tflite_int8_size_kb": 72.6953125,
+    "reduction_float32_percent": 68.85324086542778,
+    "reduction_int8_percent": 89.55808420863633
+  },
+  "depthwise_cnn": {
+    "name": "Depthwise CNN",
+    "original_size_bytes": 473232,
+    "original_size_kb": 462.140625,
+    "tflite_float32_size_bytes": 134988,
+    "tflite_float32_size_kb": 131.82421875,
+    "tflite_int8_size_bytes": 62808,
+    "tflite_int8_size_kb": 61.3359375,
+    "reduction_float32_percent": 71.47530175474186,
+    "reduction_int8_percent": 86.72786286641647
+  },
+  "cnn_attention": {
+    "name": "CNN Attention",
+    "original_size_bytes": 454600,
+    "original_size_kb": 443.9453125,
+    "tflite_float32_size_bytes": 140676,
+    "tflite_float32_size_kb": 137.37890625,
+    "tflite_int8_size_bytes": 56368,
+    "tflite_int8_size_kb": 55.046875,
+    "reduction_float32_percent": 69.05499340079191,
+    "reduction_int8_percent": 87.6005279366476
+  }
+}
