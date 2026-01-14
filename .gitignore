@@ -13,7 +13,6 @@ build/
 
 # Jupyter Notebook
 .ipynb_checkpoints
-*.ipynb
 
 # IDEs
 .vscode/
@@ -25,7 +24,6 @@ build/
 # OS
 .DS_Store
 Thumbs.db
-*.log
 
 # Project specific
 datasets/UCI HAR Dataset/
@@ -34,12 +32,45 @@ datasets/PAMAP2/
 datasets/*.zip
 datasets/*.tar.gz
 
+# Models - keep structure but ignore large files
 models/*.h5
-models/*.tflite
 models/*.pkl
+models/*.png
+models/*.txt
+
+# TFLite models - keep for deployment
+!models/tflite/*.tflite
+!models/c_arrays/*.h
+
+# Training outputs
+*.log
+training_logs/
+*.txt
+
+# Test outputs
+test_outputs/
+quick_test*.txt
+*_output.txt
+
+# Temporary and backup files
+*.tmp
+*.bak
+*.swp
+*~
 
 # Exclude src copy folder
 src copy/
+
+# Archive folder - keep structure but ignore contents
+Archive/*/
+
+# Installer files
+*.sh
+*.exe
+*.dmg
+
+# Mac specific
+__MACOSX/
 
 # LaTeX
 *.aux
@@ -48,17 +79,9 @@ src copy/
 *.fdb_latexmk
 *.fls
 *.lof
-*.log
 *.lot
 *.out
 *.synctex.gz
 *.toc
 *.nav
 *.snm
-
-# Temporary files
-*.tmp
-*.bak
-*.swp
-
-__MACOSX/
