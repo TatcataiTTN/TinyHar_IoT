@@ -1,0 +1,10 @@
+{
+  "depthwise_cnn": {
+    "description": "Depthwise Separable CNN",
+    "test_accuracy": 0.5605700612068176,
+    "test_loss": 0.8825145363807678,
+    "training_time": 114.262045,
+    "total_params": 6924,
+    "model_size_kb": 27.046875
+  }
+}

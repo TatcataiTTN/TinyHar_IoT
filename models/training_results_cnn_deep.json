@@ -1,0 +1,10 @@
+{
+  "cnn_deep": {
+    "description": "Deep CNN",
+    "test_accuracy": 0.9155073165893555,
+    "test_loss": 0.30523109436035156,
+    "training_time": 268.647459,
+    "total_params": 53382,
+    "model_size_kb": 208.5234375
+  }
+}

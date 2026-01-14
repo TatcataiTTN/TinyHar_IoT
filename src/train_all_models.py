@@ -53,9 +53,11 @@ def train_all_models(epochs=50, batch_size=32, learning_rate=0.001):
     
     X_train_r, X_val_r, X_test_r = reshape_for_cnn(X_train_p, X_val_p, X_test_p)
     
-    # 2. Định nghĩa các models cần train
+    # 2. Định nghĩa các models cần train - TẤT CẢ 6 MODELS
     model_configs = [
         {'name': 'cnn_simple', 'description': 'Baseline CNN Simple'},
+        {'name': 'cnn_deep', 'description': 'Deep CNN'},
+        {'name': 'lstm', 'description': 'LSTM Model'},
         {'name': 'cnn_lstm', 'description': 'CNN-LSTM Hybrid'},
         {'name': 'depthwise_cnn', 'description': 'Depthwise Separable CNN'},
         {'name': 'cnn_attention', 'description': 'CNN with Attention'},

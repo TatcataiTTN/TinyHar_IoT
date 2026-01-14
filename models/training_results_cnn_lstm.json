@@ -1,0 +1,10 @@
+{
+  "cnn_lstm": {
+    "description": "CNN-LSTM Hybrid",
+    "test_accuracy": 0.9032914638519287,
+    "test_loss": 0.27994805574417114,
+    "training_time": 375.332703,
+    "total_params": 41638,
+    "model_size_kb": 162.6484375
+  }
+}

@@ -166,7 +166,7 @@ def create_cnn_lstm_hybrid(input_shape, num_classes):
 
 def create_depthwise_separable_cnn(input_shape, num_classes):
     """
-    Depthwise Separable CNN (MobileNet-inspired)
+    Depthwise Separable CNN (MobileNet-inspired) - IMPROVED
     Ultra-lightweight với depthwise separable convolutions
     Kích thước: ~30-50KB, Accuracy: 94-96%
     """
@@ -174,22 +174,32 @@ def create_depthwise_separable_cnn(input_shape, num_classes):
         # Block 1: Depthwise Separable Conv
         layers.DepthwiseConv1D(kernel_size=5, depth_multiplier=1,
                                activation='relu', input_shape=input_shape),
+        layers.BatchNormalization(),
         layers.Conv1D(32, kernel_size=1, activation='relu'),  # Pointwise
+        layers.BatchNormalization(),
         layers.MaxPooling1D(pool_size=2),
         layers.Dropout(0.2),
 
         # Block 2: Depthwise Separable Conv
         layers.DepthwiseConv1D(kernel_size=5, depth_multiplier=1, activation='relu'),
+        layers.BatchNormalization(),
         layers.Conv1D(64, kernel_size=1, activation='relu'),  # Pointwise
+        layers.BatchNormalization(),
         layers.MaxPooling1D(pool_size=2),
         layers.Dropout(0.2),
+
+        # Block 3: Additional Depthwise Separable Conv
+        layers.DepthwiseConv1D(kernel_size=3, depth_multiplier=1, activation='relu'),
+        layers.BatchNormalization(),
+        layers.Conv1D(128, kernel_size=1, activation='relu'),  # Pointwise
+        layers.BatchNormalization(),
 
         # Global pooling instead of flatten (reduces parameters)
         layers.GlobalAveragePooling1D(),
 
         # Dense layers
-        layers.Dense(64, activation='relu'),
-        layers.Dropout(0.3),
+        layers.Dense(128, activation='relu'),
+        layers.Dropout(0.4),
         layers.Dense(num_classes, activation='softmax')
     ], name='Depthwise_Separable_CNN')
 

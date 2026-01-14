@@ -1,0 +1,10 @@
+{
+  "cnn_attention": {
+    "description": "CNN with Attention",
+    "test_accuracy": 0.8642687201499939,
+    "test_loss": 0.4426729381084442,
+    "training_time": 344.830178,
+    "total_params": 31814,
+    "model_size_kb": 124.2734375
+  }
+}

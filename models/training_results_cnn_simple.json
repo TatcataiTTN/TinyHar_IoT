@@ -1,0 +1,10 @@
+{
+  "cnn_simple": {
+    "description": "Baseline CNN Simple",
+    "test_accuracy": 0.9572446346282959,
+    "test_loss": 0.1672816127538681,
+    "training_time": 93.013407,
+    "total_params": 283718,
+    "model_size_kb": 1108.2734375
+  }
+}
