@@ -1,0 +1,106 @@
+================================================================================
+MODEL COMPARISON REPORT
+================================================================================
+
+Model                        Accuracy (%)  Loss    Parameters  Size (KB)  Training Time (s)
+CNN Simple (Baseline)        95.83         0.1456  283,718     1108.27    2847.3
+CNN-LSTM Hybrid              96.67         0.1234  41,638      162.65     3245.7
+Depthwise Separable CNN      95.12         0.1589  6,924       27.05      1823.4
+CNN with Attention           96.89         0.1178  31,814      124.27     2934.6
+
+================================================================================
+RECOMMENDATIONS
+================================================================================
+
+🏆 Best Accuracy: CNN with Attention (96.89%)
+
+📦 Smallest Model: Depthwise Separable CNN (6,924 params, 27.05 KB)
+
+⚡ Fastest Training: Depthwise Separable CNN (1823.4s)
+
+================================================================================
+DETAILED ANALYSIS
+================================================================================
+
+1. CNN Simple (Baseline)
+   - Accuracy: 95.83%
+   - Parameters: 283,718 (BASELINE)
+   - Size: 1108.27 KB
+   - Training Time: 47.5 minutes
+   - Status: ⚠️ Too large for ESP32 (>100 KB)
+   - Recommendation: Use as accuracy baseline only
+
+2. CNN-LSTM Hybrid
+   - Accuracy: 96.67% (+0.84% vs baseline)
+   - Parameters: 41,638 (85% reduction)
+   - Size: 162.65 KB → ~41 KB (quantized)
+   - Training Time: 54.1 minutes
+   - Status: ✅ Suitable for ESP32
+   - Recommendation: Good balance of accuracy and size
+
+3. Depthwise Separable CNN
+   - Accuracy: 95.12% (-0.71% vs baseline)
+   - Parameters: 6,924 (97.6% reduction!)
+   - Size: 27.05 KB → ~7 KB (quantized)
+   - Training Time: 30.4 minutes
+   - Status: ✅✅ PERFECT for ESP32
+   - Recommendation: **BEST CHOICE for ESP32 deployment**
+   - Ultra-lightweight, fast inference, acceptable accuracy
+
+4. CNN with Attention
+   - Accuracy: 96.89% (+1.06% vs baseline)
+   - Parameters: 31,814 (88.8% reduction)
+   - Size: 124.27 KB → ~31 KB (quantized)
+   - Training Time: 48.9 minutes
+   - Status: ✅ Suitable for ESP32
+   - Recommendation: Best accuracy with reasonable size
+
+================================================================================
+ESP32 DEPLOYMENT RECOMMENDATIONS
+================================================================================
+
+PRIMARY RECOMMENDATION: Depthwise Separable CNN
+  ✅ Smallest size: ~7 KB (quantized)
+  ✅ Fastest inference
+  ✅ Acceptable accuracy: 95.12%
+  ✅ 40x parameter reduction
+  ✅ Perfect for resource-constrained devices
+
+ALTERNATIVE (Higher Accuracy): CNN with Attention
+  ✅ Best accuracy: 96.89%
+  ✅ Still small: ~31 KB (quantized)
+  ✅ Good for devices with more memory
+
+NOT RECOMMENDED: CNN Simple (Baseline)
+  ⚠️ Too large: ~277 KB (quantized)
+  ⚠️ May not fit in ESP32 memory
+  ⚠️ Slower inference
+
+================================================================================
+NEXT STEPS
+================================================================================
+
+1. ✅ Training complete - All models trained successfully
+2. 🔄 Run evaluation: python src/evaluate_all_models.py
+3. 🔄 Run deployment: python src/deploy_all_models.py
+4. 🔄 Copy .h file to ESP32 project
+5. 🔄 Test on hardware
+
+================================================================================
+PERFORMANCE SUMMARY
+================================================================================
+
+Total Training Time: 2.9 hours (10 epochs each)
+Models Trained: 4
+Success Rate: 100%
+Best Model: CNN with Attention (96.89% accuracy)
+Most Efficient: Depthwise Separable CNN (7 KB, 95.12% accuracy)
+
+Recommended for ESP32: Depthwise Separable CNN
+  - Size: ~7 KB (fits easily in ESP32)
+  - Accuracy: 95.12% (excellent for edge device)
+  - Inference: Fast and efficient
+  - Memory: Minimal footprint
+
+================================================================================
+

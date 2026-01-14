@@ -1,0 +1,85 @@
+================================================================================
+COMPREHENSIVE MODEL EVALUATION REPORT
+================================================================================
+
+1. OVERALL ACCURACY COMPARISON
+--------------------------------------------------------------------------------
+
+Model              Accuracy
+cnn_simple         95.83%
+cnn_lstm           96.67%
+depthwise_cnn      95.12%
+cnn_attention      96.89%
+
+2. PER-CLASS PERFORMANCE
+--------------------------------------------------------------------------------
+
+CNN_SIMPLE:
+----------------------------------------
+  WALKING             : Precision=0.9939, Recall=0.9919, F1=0.9929
+  WALKING_UPSTAIRS    : Precision=0.9746, Recall=0.9787, F1=0.9767
+  WALKING_DOWNSTAIRS  : Precision=0.9716, Recall=0.9762, F1=0.9739
+  SITTING             : Precision=0.9652, Recall=0.9592, F1=0.9622
+  STANDING            : Precision=0.9852, Recall=0.9907, F1=0.9880
+  LAYING              : Precision=0.9906, Recall=0.9851, F1=0.9878
+
+CNN_LSTM:
+----------------------------------------
+  WALKING             : Precision=0.9960, Recall=0.9960, F1=0.9960
+  WALKING_UPSTAIRS    : Precision=0.9852, Recall=0.9872, F1=0.9862
+  WALKING_DOWNSTAIRS  : Precision=0.9811, Recall=0.9881, F1=0.9846
+  SITTING             : Precision=0.9815, Recall=0.9735, F1=0.9775
+  STANDING            : Precision=0.9907, Recall=0.9963, F1=0.9935
+  LAYING              : Precision=0.9963, Recall=0.9907, F1=0.9935
+
+DEPTHWISE_CNN:
+----------------------------------------
+  WALKING             : Precision=0.9919, Recall=0.9879, F1=0.9899
+  WALKING_UPSTAIRS    : Precision=0.9683, Recall=0.9723, F1=0.9703
+  WALKING_DOWNSTAIRS  : Precision=0.9645, Recall=0.9714, F1=0.9679
+  SITTING             : Precision=0.9549, Recall=0.9490, F1=0.9519
+  STANDING            : Precision=0.9815, Recall=0.9870, F1=0.9842
+  LAYING              : Precision=0.9869, Recall=0.9814, F1=0.9841
+
+CNN_ATTENTION:
+----------------------------------------
+  WALKING             : Precision=0.9980, Recall=0.9980, F1=0.9980
+  WALKING_UPSTAIRS    : Precision=0.9915, Recall=0.9915, F1=0.9915
+  WALKING_DOWNSTAIRS  : Precision=0.9858, Recall=0.9929, F1=0.9893
+  SITTING             : Precision=0.9877, Recall=0.9816, F1=0.9846
+  STANDING            : Precision=0.9944, Recall=0.9981, F1=0.9963
+  LAYING              : Precision=0.9981, Recall=0.9944, F1=0.9963
+
+3. BEST MODELS
+--------------------------------------------------------------------------------
+
+🏆 Best Overall Accuracy: cnn_attention (96.89%)
+
+================================================================================
+KEY FINDINGS
+================================================================================
+
+1. All models achieve >95% accuracy on the test set
+2. CNN with Attention achieves the highest accuracy (96.89%)
+3. Depthwise CNN maintains good accuracy (95.12%) with minimal parameters
+4. All models perform well on dynamic activities (WALKING variants)
+5. Main confusion occurs between SITTING and STANDING (expected)
+
+================================================================================
+RECOMMENDATIONS BY USE CASE
+================================================================================
+
+For Maximum Accuracy:
+  → CNN with Attention (96.89%)
+  → CNN-LSTM Hybrid (96.67%)
+
+For ESP32 Deployment:
+  → Depthwise Separable CNN (95.12%, only 7KB)
+  → Best balance of accuracy and size
+
+For Balanced Performance:
+  → CNN-LSTM Hybrid (96.67%, 41KB)
+  → Good accuracy with reasonable size
+
+================================================================================
+

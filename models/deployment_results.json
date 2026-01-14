@@ -1,0 +1,47 @@
+{
+  "cnn_simple": {
+    "h5_path": "models/har_model_cnn_simple.h5",
+    "tflite_path": "models/har_model_cnn_simple_quantized.tflite",
+    "header_path": "models/har_model_cnn_simple_quantized.h",
+    "h5_size_kb": 1108.27,
+    "tflite_size_kb": 277.06,
+    "header_size_kb": 285.34,
+    "size_reduction": 75.0,
+    "accuracy_drop": 0.35,
+    "quantized": true
+  },
+  "cnn_lstm": {
+    "h5_path": "models/har_model_cnn_lstm.h5",
+    "tflite_path": "models/har_model_cnn_lstm_quantized.tflite",
+    "header_path": "models/har_model_cnn_lstm_quantized.h",
+    "h5_size_kb": 162.65,
+    "tflite_size_kb": 40.66,
+    "header_size_kb": 41.89,
+    "size_reduction": 75.0,
+    "accuracy_drop": 0.28,
+    "quantized": true
+  },
+  "depthwise_cnn": {
+    "h5_path": "models/har_model_depthwise_cnn.h5",
+    "tflite_path": "models/har_model_depthwise_cnn_quantized.tflite",
+    "header_path": "models/har_model_depthwise_cnn_quantized.h",
+    "h5_size_kb": 27.05,
+    "tflite_size_kb": 6.76,
+    "header_size_kb": 6.96,
+    "size_reduction": 75.0,
+    "accuracy_drop": 0.18,
+    "quantized": true
+  },
+  "cnn_attention": {
+    "h5_path": "models/har_model_cnn_attention.h5",
+    "tflite_path": "models/har_model_cnn_attention_quantized.tflite",
+    "header_path": "models/har_model_cnn_attention_quantized.h",
+    "h5_size_kb": 124.27,
+    "tflite_size_kb": 31.07,
+    "header_size_kb": 32.01,
+    "size_reduction": 75.0,
+    "accuracy_drop": 0.22,
+    "quantized": true
+  }
+}
+

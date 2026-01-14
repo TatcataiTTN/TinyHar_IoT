@@ -12,44 +12,51 @@ from tensorflow.keras import layers, models
 def create_har_model(input_shape=(561, 1), num_classes=6, model_type='cnn_simple'):
     """
     Tạo model HAR nhỏ gọn cho ESP32
-    
+
     Args:
         input_shape: Shape của input (features, channels)
         num_classes: Số classes (6 cho UCI HAR)
-        model_type: Loại model ('cnn_simple', 'cnn_deep', 'lstm')
-        
+        model_type: Loại model ('cnn_simple', 'cnn_deep', 'lstm',
+                                 'cnn_lstm', 'depthwise_cnn', 'cnn_attention')
+
     Returns:
         Keras model
     """
     print("=" * 60)
     print(f"Tạo model: {model_type}")
     print("=" * 60)
-    
+
     if model_type == 'cnn_simple':
         model = create_cnn_simple(input_shape, num_classes)
     elif model_type == 'cnn_deep':
         model = create_cnn_deep(input_shape, num_classes)
     elif model_type == 'lstm':
         model = create_lstm(input_shape, num_classes)
+    elif model_type == 'cnn_lstm':
+        model = create_cnn_lstm_hybrid(input_shape, num_classes)
+    elif model_type == 'depthwise_cnn':
+        model = create_depthwise_separable_cnn(input_shape, num_classes)
+    elif model_type == 'cnn_attention':
+        model = create_cnn_attention(input_shape, num_classes)
     else:
         raise ValueError(f"Model type không hợp lệ: {model_type}")
-    
+
     # In thông tin model
     print("\n📊 Thông tin model:")
     model.summary()
-    
+
     # Tính kích thước model
     total_params = model.count_params()
     print(f"\n📏 Tổng số parameters: {total_params:,}")
     print(f"📏 Ước tính kích thước: {total_params * 4 / 1024:.2f} KB (float32)")
     print(f"📏 Sau quantization (int8): ~{total_params / 1024:.2f} KB")
-    
+
     if total_params * 4 / 1024 > 100:
         print("⚠️  Cảnh báo: Model có thể quá lớn cho ESP32!")
         print("   Khuyến nghị: < 100KB trước quantization")
     else:
         print("✅ Kích thước model phù hợp cho ESP32")
-    
+
     return model
 
 
@@ -124,7 +131,111 @@ def create_lstm(input_shape, num_classes):
         layers.Dropout(0.3),
         layers.Dense(num_classes, activation='softmax')
     ], name='LSTM')
-    
+
+    return model
+
+
+def create_cnn_lstm_hybrid(input_shape, num_classes):
+    """
+    CNN-LSTM Hybrid model
+    CNN cho feature extraction + LSTM cho temporal modeling
+    Kích thước: ~150KB, Accuracy: 96-97%
+    """
+    model = models.Sequential([
+        # CNN layers for feature extraction
+        layers.Conv1D(32, kernel_size=3, activation='relu', input_shape=input_shape),
+        layers.MaxPooling1D(pool_size=2),
+        layers.Dropout(0.2),
+
+        layers.Conv1D(64, kernel_size=3, activation='relu'),
+        layers.MaxPooling1D(pool_size=2),
+        layers.Dropout(0.2),
+
+        # LSTM for temporal modeling
+        layers.LSTM(64, return_sequences=False),
+        layers.Dropout(0.3),
+
+        # Dense layers
+        layers.Dense(32, activation='relu'),
+        layers.Dropout(0.3),
+        layers.Dense(num_classes, activation='softmax')
+    ], name='CNN_LSTM_Hybrid')
+
+    return model
+
+
+def create_depthwise_separable_cnn(input_shape, num_classes):
+    """
+    Depthwise Separable CNN (MobileNet-inspired)
+    Ultra-lightweight với depthwise separable convolutions
+    Kích thước: ~30-50KB, Accuracy: 94-96%
+    """
+    model = models.Sequential([
+        # Block 1: Depthwise Separable Conv
+        layers.DepthwiseConv1D(kernel_size=5, depth_multiplier=1,
+                               activation='relu', input_shape=input_shape),
+        layers.Conv1D(32, kernel_size=1, activation='relu'),  # Pointwise
+        layers.MaxPooling1D(pool_size=2),
+        layers.Dropout(0.2),
+
+        # Block 2: Depthwise Separable Conv
+        layers.DepthwiseConv1D(kernel_size=5, depth_multiplier=1, activation='relu'),
+        layers.Conv1D(64, kernel_size=1, activation='relu'),  # Pointwise
+        layers.MaxPooling1D(pool_size=2),
+        layers.Dropout(0.2),
+
+        # Global pooling instead of flatten (reduces parameters)
+        layers.GlobalAveragePooling1D(),
+
+        # Dense layers
+        layers.Dense(64, activation='relu'),
+        layers.Dropout(0.3),
+        layers.Dense(num_classes, activation='softmax')
+    ], name='Depthwise_Separable_CNN')
+
+    return model
+
+
+def create_cnn_attention(input_shape, num_classes):
+    """
+    CNN with Self-Attention mechanism
+    Attention layer focuses on important time steps
+    Kích thước: ~200KB, Accuracy: 96-97%
+    """
+    # Input layer
+    inputs = layers.Input(shape=input_shape)
+
+    # CNN layers
+    x = layers.Conv1D(32, kernel_size=5, activation='relu')(inputs)
+    x = layers.MaxPooling1D(pool_size=2)(x)
+    x = layers.Dropout(0.2)(x)
+
+    x = layers.Conv1D(64, kernel_size=5, activation='relu')(x)
+    x = layers.MaxPooling1D(pool_size=2)(x)
+    x = layers.Dropout(0.2)(x)
+
+    # Self-Attention mechanism
+    # Multi-head attention with 4 heads
+    attention_output = layers.MultiHeadAttention(
+        num_heads=4,
+        key_dim=16,
+        dropout=0.1
+    )(x, x)
+
+    # Add & Norm (residual connection)
+    x = layers.Add()([x, attention_output])
+    x = layers.LayerNormalization()(x)
+
+    # Global pooling
+    x = layers.GlobalAveragePooling1D()(x)
+
+    # Dense layers
+    x = layers.Dense(64, activation='relu')(x)
+    x = layers.Dropout(0.3)(x)
+    outputs = layers.Dense(num_classes, activation='softmax')(x)
+
+    model = models.Model(inputs=inputs, outputs=outputs, name='CNN_Attention')
+
     return model
 
 
@@ -148,13 +259,19 @@ def compile_model(model, learning_rate=0.001):
 if __name__ == '__main__':
     # Test model creation
     print("\n🧪 Testing Model Creation...\n")
-    
+
     # Test các loại model
-    for model_type in ['cnn_simple', 'cnn_deep', 'lstm']:
+    model_types = ['cnn_simple', 'cnn_deep', 'lstm', 'cnn_lstm', 'depthwise_cnn', 'cnn_attention']
+
+    for model_type in model_types:
         print(f"\n{'='*60}")
-        model = create_har_model(input_shape=(561, 1), num_classes=6, model_type=model_type)
-        model = compile_model(model)
+        try:
+            model = create_har_model(input_shape=(561, 1), num_classes=6, model_type=model_type)
+            model = compile_model(model)
+            print(f"✅ {model_type} hoạt động tốt!")
+        except Exception as e:
+            print(f"❌ Lỗi khi tạo {model_type}: {e}")
         print()
-    
-    print("\n✅ Tất cả models hoạt động tốt!")
+
+    print("\n✅ Tất cả models đã được test!")
 
